@@ -17,11 +17,17 @@ class SeedFunctions:
         base = {(0, 1), (0, 2), (1, 0), (1, 1), (2, 1)}
         return frozenset((i + offset, j + offset) for i, j in base)
 
+    @staticmethod
+    def get_random_seed(n, p=0.5):
+        """Choose random (Bernoulli dist) starting grid, where p is prob of cell being alive"""
+        indices_with_dist = zip(np.random.binomial(1, p, n ** 2), np.ndenumerate(np.zeros((n, n))))
+        return frozenset(j[0] for i, j in indices_with_dist if i == 1)
+
 
 class Config:
     generations = 1000
     n = 100
-    seed = SeedFunctions.get_r_pentomino(40)
+    seed = SeedFunctions.get_random_seed(n, p=0.3)
 
 
 def get_new_grid(out_grid: np.ndarray):
