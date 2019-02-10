@@ -1,1 +1,4 @@
 *.idea*
+build/
+dist/
+conways_game_of_life.egg-info/
