@@ -1,5 +1,6 @@
 import numpy as np
-import matplotlib.pyplot as plt
+
+from common.utilities import plotter
 
 
 class SeedFunctions:
@@ -69,21 +70,5 @@ def get_next_generation_state(cell_alive, grid_sum):
     return int((cell_alive and grid_sum in (2, 3)) or (not cell_alive and grid_sum == 3))
 
 
-def plotter(n=10, generations=100, initial_seed=None):
-    """Plotter using matplotlib to plot each array."""
-    im = None
-    out_grid = get_initial_grid(n, initial_seed)
-    for _ in range(generations):
-        if im is None:
-            # Plot initial data
-            im = plt.imshow(out_grid, interpolation='none', vmin=0, vmax=2)
-        else:
-            # update
-            out_grid = get_new_grid(out_grid)
-            im.set_data(out_grid)
-        plt.draw()
-        plt.pause(0.1)
-
-
 if __name__ == '__main__':
-    plotter(Config.n, Config.generations, Config.seed)
+    plotter(get_initial_grid, get_new_grid, Config.n, Config.generations, Config.seed)
