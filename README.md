@@ -1,4 +1,4 @@
-# cellular-automate
+# cellular-automata
 Python implementations of two simple cellular automata, with a numpy engine and matplotlib graphics.
 Includes Conway's game of life and a terrain generation script.
 
