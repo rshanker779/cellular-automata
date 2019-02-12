@@ -7,7 +7,7 @@ setup(name="cellular_automata",
       version='1.0.0',
       author="rshanker779",
       author_email="rshanker779@gmail.com",
-      description="Cellular automate in python, including implementation of Conway's game" \
+      description="Cellular automata in python, including implementation of Conway's game" \
                   "of life and some terrain generation",
       long_description=long_description,
       long_description_content_type="text/markdown",
@@ -17,6 +17,8 @@ setup(name="cellular_automata",
       install_requires=['numpy',
                         'matplotlib',
                         'setuptools'],
-      packages=find_namespace_packages(),
+      packages=['conway', 'common', 'terrain_generation'],
+      entry_points={'gui_scripts': ['conway_=conway.conway:main', 'terrain_=terrain_generation.terrain:main']},
+      zip_safe=True
 
       )

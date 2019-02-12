@@ -1,6 +1,6 @@
 *.idea*
 build/
 dist/
-conways_game_of_life.egg-info/
+cellular_automata.egg-info/
 *__pycache__*
 *.mypy_cache*
