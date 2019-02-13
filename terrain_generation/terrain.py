@@ -11,7 +11,11 @@ of same type. If we "die" we randomly generate a new square (so unlike Conway as
 
 
 class TerrainConfig(GeneralConfig):
-    generations = 100
+    args = GeneralConfig.parser.parse_args()
+    if args.size is not None:
+        n = args.size
+    if args.generations is not None:
+        generations = GeneralConfig.generations
 
 
 class Terrain:

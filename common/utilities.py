@@ -3,10 +3,14 @@ from typing import Tuple, Callable
 import numpy as np
 from matplotlib import pyplot as plt
 from collections import Counter
+import argparse
 
 class GeneralConfig:
     n = 100
     generations = 1000
+    parser = argparse.ArgumentParser("Conway variables")
+    parser.add_argument('--size', metavar='n', type=int, help='Number of pixels in gid')
+    parser.add_argument('--generations', metavar='g', type=int, help='Number of generations to run for')
 
 def plotter(initial_grid, repeated_function, generations=100):
     """Plotter using matplotlib to plot each array."""
