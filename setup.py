@@ -19,6 +19,6 @@ setup(name="cellular_automata",
                         'setuptools'],
       packages=['conway', 'common', 'terrain_generation'],
       entry_points={'gui_scripts': ['conway_=conway.conway:main', 'terrain_=terrain_generation.terrain:main']},
-      zip_safe=True
-
+    test_suite="tests",
+    
       )
