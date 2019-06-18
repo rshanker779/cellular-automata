@@ -1,14 +1,15 @@
-from enum import Enum
 from collections import Counter
-import argparse
+from enum import Enum
+
 import numpy as np
+
 from common.utilities import plotter, GeneralConfig, get_new_grid
 
 
 class SeedFunctionTypes(Enum):
-    GLIDER = 'glider'
-    R_PENTOMINO = 'r_pentomino'
-    RANDOM = 'random'
+    GLIDER = "glider"
+    R_PENTOMINO = "r_pentomino"
+    RANDOM = "random"
 
     def __str__(self):
         return self.value
@@ -33,27 +34,38 @@ class SeedFunctions:
     @staticmethod
     def get_random_seed(n, p=0.4):
         """Choose random (Bernoulli dist) starting grid, where p is prob of cell being alive"""
-        indices_with_dist = zip(np.random.binomial(1, p, n ** 2), np.ndenumerate(np.zeros((n, n))))
+        indices_with_dist = zip(
+            np.random.binomial(1, p, n ** 2), np.ndenumerate(np.zeros((n, n)))
+        )
         return frozenset(j[0] for i, j in indices_with_dist if i == 1)
 
-    seed_dict = {SeedFunctionTypes.GLIDER: get_glider_indices,
-                 SeedFunctionTypes.R_PENTOMINO: get_r_pentomino,
-                 SeedFunctionTypes.RANDOM: get_random_seed
-                 }
+    seed_dict = {
+        SeedFunctionTypes.GLIDER: get_glider_indices,
+        SeedFunctionTypes.R_PENTOMINO: get_r_pentomino,
+        SeedFunctionTypes.RANDOM: get_random_seed,
+    }
 
 
 class ConwayConfig(GeneralConfig):
-    GeneralConfig.parser.add_argument('--seed', metavar='s', type=SeedFunctionTypes, choices=list(SeedFunctionTypes),
-                                      help='Initial grid state', )
-    args = GeneralConfig.parser.parse_args()
-    if args.size is not None:
-        n = args.size
-    if args.generations is not None:
-        generations = GeneralConfig.generations
-    if args.seed is None:
-        seed = SeedFunctions.get_r_pentomino
-    else:
-        seed = SeedFunctions.seed_dict[args.seed]
+    GeneralConfig.parser.add_argument(
+        "--seed",
+        metavar="s",
+        type=SeedFunctionTypes,
+        choices=list(SeedFunctionTypes),
+        help="Initial grid state",
+    )
+
+    @classmethod
+    def parse_args(cls,):
+        args = GeneralConfig.parser.parse_args()
+        if args.size is not None:
+            cls.n = args.size
+        if args.generations is not None:
+            cls.generations = GeneralConfig.generations
+        if args.seed is None:
+            cls.seed = SeedFunctions.get_r_pentomino
+        else:
+            cls.seed = SeedFunctions.seed_dict[args.seed]
 
 
 def get_new_conway_grid(out_grid: np.ndarray):
@@ -82,12 +94,19 @@ def get_seed(out_grid, initial_alive_points=None):
 def get_next_generation_state(cell_alive: int, neighbours: Counter):
     """Base logic for each cell"""
     grid_sum = neighbours[1]
-    return int((cell_alive and grid_sum in (2, 3)) or (not cell_alive and grid_sum == 3))
+    return int(
+        (cell_alive and grid_sum in (2, 3)) or (not cell_alive and grid_sum == 3)
+    )
 
 
 def main():
-    plotter(get_initial_grid(ConwayConfig.n, ConwayConfig.seed), get_new_conway_grid, ConwayConfig.generations)
+    ConwayConfig.parse_args()
+    plotter(
+        get_initial_grid(ConwayConfig.n, ConwayConfig.seed),
+        get_new_conway_grid,
+        ConwayConfig.generations,
+    )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

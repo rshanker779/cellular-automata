@@ -53,7 +53,9 @@ class TerrainType(Enum):
 class SetUpTerrainProbs:
     """Class to configure initial prob values of classes"""
 
-    def __init__(self, water_live_prob: float, land_live_prob: float, hill_live_prob: float):
+    def __init__(
+        self, water_live_prob: float, land_live_prob: float, hill_live_prob: float
+    ):
         self.water = Water(water_live_prob)
         self.land = Land(land_live_prob)
         self.hill = Hill(hill_live_prob)
@@ -75,8 +77,7 @@ def get_new_terrain_grid(out_grid: np.ndarray) -> np.ndarray:
     """Counts neighbours and passes the counter object to get_next_state
         to apply game logic
     """
-    return get_new_grid(out_grid, get_next_state,TerrainConfig.n )
-
+    return get_new_grid(out_grid, get_next_state, TerrainConfig.n)
 
 
 def get_next_state(current_state: int, neighbours: Counter) -> int:
@@ -85,20 +86,27 @@ def get_next_state(current_state: int, neighbours: Counter) -> int:
     current_state_terrain = TerrainType(current_state)
     terrain_class_type = current_state_terrain.get_class()
     # Take our current terrain holder, and look for attribute with name of matching class
-    terrain_class_instance = Global.terrain_holder.__dict__.get(terrain_class_type.__name__.lower())
+    terrain_class_instance = Global.terrain_holder.__dict__.get(
+        terrain_class_type.__name__.lower()
+    )
     same_neighbours = neighbours[current_state]
     relative_prob = same_neighbours / total
     if relative_prob > terrain_class_instance.prob_die:
         return current_state
     else:
-        return np.random.randint(Global.min_terrain_type_int, Global.max_terrain_type_int)
+        return np.random.randint(
+            Global.min_terrain_type_int, Global.max_terrain_type_int
+        )
 
 
 def main():
-    terrain_grid = np.random.randint(Global.min_terrain_type_int, Global.max_terrain_type_int + 1,
-                                     (TerrainConfig.n, TerrainConfig.n))
+    terrain_grid = np.random.randint(
+        Global.min_terrain_type_int,
+        Global.max_terrain_type_int + 1,
+        (TerrainConfig.n, TerrainConfig.n),
+    )
     plotter(terrain_grid, get_new_terrain_grid, TerrainConfig.generations)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

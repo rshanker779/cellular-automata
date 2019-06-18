@@ -5,12 +5,16 @@ from matplotlib import pyplot as plt
 from collections import Counter
 import argparse
 
+
 class GeneralConfig:
     n = 100
     generations = 1000
     parser = argparse.ArgumentParser("Conway variables")
-    parser.add_argument('--size', metavar='n', type=int, help='Number of pixels in gid')
-    parser.add_argument('--generations', metavar='g', type=int, help='Number of generations to run for')
+    parser.add_argument("--size", metavar="n", type=int, help="Number of pixels in gid")
+    parser.add_argument(
+        "--generations", metavar="g", type=int, help="Number of generations to run for"
+    )
+
 
 def plotter(initial_grid, repeated_function, generations=100):
     """Plotter using matplotlib to plot each array."""
@@ -19,7 +23,9 @@ def plotter(initial_grid, repeated_function, generations=100):
     for _ in range(generations):
         if im is None:
             # Plot initial data
-            im = plt.imshow(out_grid, interpolation='none', vmin=0, vmax=3, cmap='ocean')
+            im = plt.imshow(
+                out_grid, interpolation="none", vmin=0, vmax=3, cmap="ocean"
+            )
         else:
             # update
             out_grid = repeated_function(out_grid)
@@ -28,7 +34,9 @@ def plotter(initial_grid, repeated_function, generations=100):
         plt.pause(0.1)
 
 
-def get_new_grid(out_grid: np.ndarray, get_next_function:Callable[[int, Counter], int],n:int ) -> np.ndarray:
+def get_new_grid(
+    out_grid: np.ndarray, get_next_function: Callable[[int, Counter], int], n: int
+) -> np.ndarray:
     """Counts neighbours and passes the counter object to get_next_state
         to apply game logic
     """
@@ -45,6 +53,7 @@ def get_new_grid(out_grid: np.ndarray, get_next_function:Callable[[int, Counter]
         counter = Counter(surrounding_list)
         new_grid[x, y] = get_next_function(out_grid[x, y], counter)
     return new_grid
+
 
 def get_enum_range(cls: EnumMeta) -> Tuple[int, int]:
     """Takes an EnumMeta class and returns a tuple of min and max int

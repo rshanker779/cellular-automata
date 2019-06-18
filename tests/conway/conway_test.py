@@ -1,5 +1,5 @@
 import unittest
-from conway import get_next_generation_state
+from conway.conway import get_next_generation_state
 from collections import Counter
 
 
@@ -17,8 +17,14 @@ class ConwayTest(unittest.TestCase):
         state_4 = get_next_generation_state(True, Counter([1 for _ in range(3)]))
         self.assertEqual(state_4, 1)
         for i in range(4, 9):
-            self.assertEqual(get_next_generation_state(True, Counter([1 for _ in range(i)])), 0)
-        self.assertEqual(get_next_generation_state(False, Counter([1 for _ in range(3)])), 1)
+            self.assertEqual(
+                get_next_generation_state(True, Counter([1 for _ in range(i)])), 0
+            )
+        self.assertEqual(
+            get_next_generation_state(False, Counter([1 for _ in range(3)])), 1
+        )
         for i in range(9):
             if i != 3:
-                self.assertEqual(get_next_generation_state(False, Counter([1 for _ in range(i)])), 0)
+                self.assertEqual(
+                    get_next_generation_state(False, Counter([1 for _ in range(i)])), 0
+                )
