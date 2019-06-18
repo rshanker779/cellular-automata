@@ -5,4 +5,5 @@ python:
 install:
   - python setup.py install
 script:
+  - black --check .
   - python setup.py test
